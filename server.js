@@ -37,12 +37,14 @@ var server = http.createServer(function(request, response){
     response.statusCode = 200
     response.setHeader('Content-Type', 'text/XML')
     response.write(`
-    <note>
-      <to>糖糖</to>
-      <from>照照</from>
-      <heading>hellow你好吗</heading>
-      <body>hellow你好吗衷心感谢珍重再见期待再相逢</body>
-    </note>
+    {
+      "note":{
+        "to": "糖糖",
+        "from": "照照",
+        "heading": "哈喽",
+        "content": "你好吗"
+      }
+    }
     `)
     response.end()
   }else{

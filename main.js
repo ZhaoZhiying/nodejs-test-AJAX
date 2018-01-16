@@ -6,12 +6,18 @@ myButton.addEventListener('click', (e)=>{
             if(request.status >= 200 && request.status < 300){
                 console.log('请求成功')
                 console.log(request.responseText)
-                let parser = new DOMParser();
-                let xmlDoc = parser.parseFromString(request.responseText, "text/xml");
-                let content = xmlDoc.getElementsByTagName('body')[0].textContent
-                let title = xmlDoc.getElementsByTagName('heading')[0].textContent
-                console.log(content)
-                console.log(title)
+                console.log(typeof request.responseType)
+
+                let string =  request.responseText
+                // 把符合 JSON 语法的字符串
+                // 转换成 JS 对应的值
+                let object = window.JSON.parse(string)//JSON.parse 是浏览器提供的
+
+                console.log(typeof object)
+                console.log(object)
+                console.log('object.note')
+                console.log(object.note)
+
             }else if(request.status >= 400){
                 console.log('请求失败')
             }
