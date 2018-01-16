@@ -1,5 +1,7 @@
 myButton.addEventListener('click', (e)=>{
     let request = new XMLHttpRequest()
+    request.open('GET', 'https://www.baidu.com/') // 配置 request 
+    request.send()
     request.onreadystatechange = () =>{ 
         if(request.readyState === 4){
             console.log('请求响应完毕')
@@ -23,6 +25,4 @@ myButton.addEventListener('click', (e)=>{
             }
         }
     }
-    request.open('GET', '/xxx') // 配置 request 
-    request.send()
 })
