@@ -41,6 +41,9 @@ window.jQuery.ajax = function(options){
     request.send(body) 
 }
 
+function f1(responseText){}
+function f2(responseText){}
+
 // 使用方代码
 myButton.addEventListener('click', (e)=>{
     window.jQuery.ajax({
@@ -51,7 +54,8 @@ myButton.addEventListener('click', (e)=>{
             'frank': '18'
         },
         successFn: (x)=>{
-            console.log(x)
+            f1.call(undefined,x)
+            f2.call(undefined,x)
         }, //传了个函数 但是不 call
         failFn: (x)=>{
             console.log(x)
