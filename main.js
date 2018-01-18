@@ -7,21 +7,8 @@ window.jQuery = function(nodeOrSelector){
 
 window.$ = window.jQuery
 
-window.jQuery.ajax = function(options){
-    // arguments 接受两种参数
-    let url
-    if(arguments.length === 1){
-        url = options.url
-    }else if(arguments.length === 2){
-        url = arguments[0]//这时候是 options
-        options = arguments[1] //纠正
-    }
-
-    let method = options.method
-    let body = options.body
-    let successFn = options.successFn
-    let failFn = options.failFn
-    let headers = options.headers 
+// ES6 析构赋值
+window.jQuery.ajax = function({url, method, body, successFn, failFn, headers}){
 
     let request = new XMLHttpRequest()
     request.open(method, url) // 配置 request
