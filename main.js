@@ -8,7 +8,15 @@ window.jQuery = function(nodeOrSelector){
 window.$ = window.jQuery
 
 window.jQuery.ajax = function(options){
-    let url = options.url
+    // arguments 接受两种参数
+    let url
+    if(arguments.length === 1){
+        url = options.url
+    }else if(arguments.length === 2){
+        url = arguments[0]//这时候是 options
+        options = arguments[1] //纠正
+    }
+
     let method = options.method
     let body = options.body
     let successFn = options.successFn
