@@ -5,13 +5,26 @@ window.jQuery = function(nodeOrSelector){
     return nodes
 }
 
-window.jQuery.ajax = function(url, method, body, successFn, failFn){
+window.$ = window.jQuery
+
+window.jQuery.ajax = function(options){
+    let url = options.url
+    let method = options.method
+    let body = options.body
+    let successFn = options.successFn
+    let failFn = options.failFn
+    let headers = options.headers 
+
     let request = new XMLHttpRequest()
-    request.open(method, url) 
-    request.onreadystatechange = () =>{ 
+    request.open(method, url) // 配置 request
+    for(let key in headers){
+        let value = headers[key]
+        request.setRequestHeader(key, value)
+    }
+    request.onreadystatechange = ()=>{ 
         if(request.readyState === 4){     
             if(request.status >= 200 && request.status < 300){
-                successFn.call(undefined, request.responseText)
+                successFn.call(undefined, request.responseText) // call 给使用方叫 callback （回调）
             }else if(request.status >= 400){
                 failFn.call(undefined, request)
             }
@@ -19,14 +32,21 @@ window.jQuery.ajax = function(url, method, body, successFn, failFn){
     }
     request.send(body) 
 }
-window.$ = window.jQuery
 
+// 使用方代码
 myButton.addEventListener('click', (e)=>{
-    window.jQuery.ajax(
-        '/xxx', 
-        'post', 
-        'a=1&b=2', 
-        (responseText)=>{console.log(1)}, 
-        (request)=>{console.log(2)}
-    )
+    window.jQuery.ajax({
+        url: '/xxx', 
+        method: 'post', 
+        headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+            'frank': '18'
+        },
+        successFn: (x)=>{
+            console.log(x)
+        }, //传了个函数 但是不 call
+        failFn: (x)=>{
+            console.log(x)
+        },
+    })
 })
