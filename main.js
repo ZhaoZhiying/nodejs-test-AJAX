@@ -8,24 +8,26 @@ window.jQuery = function(nodeOrSelector){
 window.$ = window.jQuery
 
 // ES6 析构赋值
-window.jQuery.ajax = function({url, method, body, successFn, failFn, headers}){
-
-    let request = new XMLHttpRequest()
-    request.open(method, url) // 配置 request
-    for(let key in headers){
-        let value = headers[key]
-        request.setRequestHeader(key, value)
-    }
-    request.onreadystatechange = ()=>{ 
-        if(request.readyState === 4){     
-            if(request.status >= 200 && request.status < 300){
-                successFn.call(undefined, request.responseText) // call 给使用方叫 callback （回调）
-            }else if(request.status >= 400){
-                failFn.call(undefined, request)
+window.jQuery.ajax = function({url, method, body, headers}){
+    // promise
+    return new Promise(function(resolve, reject){
+        let request = new XMLHttpRequest()
+        request.open(method, url) // 配置 request
+        for(let key in headers){
+            let value = headers[key]
+            request.setRequestHeader(key, value)
+        }
+        request.onreadystatechange = ()=>{ 
+            if(request.readyState === 4){     
+                if(request.status >= 200 && request.status < 300){
+                    resolve.call(undefined, request.responseText) // call 给使用方叫 callback （回调）
+                }else if(request.status >= 400){
+                    reject.call(undefined, request)
+                }
             }
         }
-    }
-    request.send(body) 
+        request.send(body) 
+    })
 }
 
 function f1(responseText){}
@@ -39,13 +41,9 @@ myButton.addEventListener('click', (e)=>{
         headers: {
             'content-type': 'application/x-www-form-urlencoded',
             'frank': '18'
-        },
-        successFn: (x)=>{
-            f1.call(undefined,x)
-            f2.call(undefined,x)
-        }, //传了个函数 但是不 call
-        failFn: (x)=>{
-            console.log(x)
-        },
-    })
+        }
+    }).then(
+        (text)=>{console.log(text)},
+        (request)=>{console.log(request)}
+    )
 })
