@@ -9,7 +9,7 @@ window.$ = window.jQuery
 
 // ES6 析构赋值
 window.jQuery.ajax = function({url, method, body, headers}){
-    // promise
+    // Promise
     return new Promise(function(resolve, reject){
         let request = new XMLHttpRequest()
         request.open(method, url) // 配置 request
@@ -29,9 +29,6 @@ window.jQuery.ajax = function({url, method, body, headers}){
         request.send(body) 
     })
 }
-
-function f1(responseText){}
-function f2(responseText){}
 
 // 使用方代码
 myButton.addEventListener('click', (e)=>{
